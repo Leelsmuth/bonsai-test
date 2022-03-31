@@ -1,5 +1,7 @@
+import React, { useEffect } from 'react';
 import { useContext } from 'react';
-
+import { useDispatch, useSelector, RootStateOrAny } from 'react-redux';
+import { getProducts } from './state/actionCreator';
 import { CartContext } from './cart-context';
 
 import Cart from './components/cart/cart';
@@ -30,12 +32,27 @@ const TEMPORARY_ITEMS = [
 const App = () => {
   const { isOpen } = useContext(CartContext);
 
+  const dispatch = useDispatch();
+
+  // get photos state
+  const productsList = useSelector((state: RootStateOrAny) => state.productsList);
+
+  const cart = useSelector((state: RootStateOrAny) => state.cart);
+
+  const { items } = cart;
+
+  const { products, isFetching } = productsList;
+
+  useEffect(() => {
+    dispatch(getProducts());
+  }, [dispatch, items]);
+
   return (
     <div className="App">
       <Navigation />
       {isOpen ? <Cart /> : null}
       <div className="products-listing">
-        {TEMPORARY_ITEMS.map((productItem) => (
+        {products.map((productItem: any) => (
           <ProductCard key={productItem.id} product={productItem} />
         ))}
       </div>
