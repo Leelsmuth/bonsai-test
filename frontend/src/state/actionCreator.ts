@@ -1,12 +1,12 @@
 import { Dispatch } from 'redux';
-import bonsaiApi from "../utils/apiUtil";
-import * as types from "./actionTypes";
+import bonsaiApi from '../utils/apiUtil';
+import * as types from './actionTypes';
 
 export const getProducts = () => {
   return (dispatch: Dispatch) => {
     dispatch({ type: types.PRODUCTS_START });
     return bonsaiApi
-      .get("/products")
+      .get('/products')
       .then((res) => {
         let data = res.data.products;
         dispatch({ type: types.PRODUCTS_SUCCESS, payload: data });
@@ -29,17 +29,15 @@ export const removeItem = (id: any) => (dispatch: Dispatch) => {
 };
 
 export const addToCart = (id: any) => async (dispatch: Dispatch) => {
-
   dispatch({
     type: types.ADD_TO_CART,
-    payload: id
+    payload: id,
   });
-
 };
 
 // clear the cart
 export const clearCart = () => (dispatch: Dispatch) => {
-  return dispatch({ type: types.CLEAR_CART, });
+  return dispatch({ type: types.CLEAR_CART });
 };
 
 // increment the item

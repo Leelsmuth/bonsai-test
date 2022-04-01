@@ -53,7 +53,7 @@ const VariantCard: FC<IVariantCardProps> = ({
       options: optionArray,
       imageSrc: image,
       quantitySelected: 1,
-      isDiscontinued: variant.isDiscontinued
+      isDiscontinued: variant.isDiscontinued,
     });
   };
 

@@ -1,4 +1,4 @@
-import { createContext, useState, FC } from "react";
+import { createContext, useState, FC } from 'react';
 
 interface ICartContext {
   isOpen: boolean;

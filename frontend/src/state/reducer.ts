@@ -1,8 +1,6 @@
 import { Reducer } from 'redux';
 import * as types from './actionTypes';
 
-// initial photo state
-
 export interface productState {
   isFetching?: boolean;
   products: [];
@@ -52,13 +50,12 @@ export const cartReducer: Reducer<any> = (state = initialCart, action) => {
       if (existItem) {
         return {
           ...state,
-          items: state.items.map((x: any) => x.id === existItem ? item : x)
+          items: state.items.map((x: any) => (x.id === existItem ? item : x)),
         };
-
       } else {
         return {
           ...state,
-          items: [...state.items, item]
+          items: [...state.items, item],
         };
       }
 

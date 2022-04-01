@@ -1,8 +1,8 @@
-import { useContext } from "react";
+import { useContext } from 'react';
 
-import { CartContext } from "../../cart-context";
+import { CartContext } from '../../cart-context';
 
-import "./navigation.styles.css";
+import './navigation.styles.css';
 
 const Navigation = () => {
   const { isOpen, setIsOpen } = useContext(CartContext);
