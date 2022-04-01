@@ -1,13 +1,21 @@
+import { Reducer } from 'redux';
 import * as types from './actionTypes';
 
 // initial photo state
-const initialProducts = {
+
+export interface productState {
+  isFetching?: boolean;
+  products: [];
+  error?: null;
+}
+
+const initialProducts: productState = {
   products: [],
   isFetching: false,
   error: null,
 };
 
-export const productReducer = (state = initialProducts, action) => {
+export const productReducer: Reducer<productState> = (state = initialProducts, action) => {
   switch (action.type) {
     case types.PRODUCTS_START:
       return {
@@ -31,21 +39,20 @@ export const productReducer = (state = initialProducts, action) => {
 };
 
 const initialCart = {
-  items: []
+  items: [],
 };
 
-export const cartReducer = (state = initialCart, action) => {
+export const cartReducer: Reducer<any> = (state = initialCart, action) => {
   let doesItemExist;
   switch (action.type) {
     case types.ADD_TO_CART:
       const item = action.payload;
-      const existItem = state.items.find(x => x.id === item.id);
+      const existItem = state.items.find((x: any) => x.id === item.id);
 
       if (existItem) {
         return {
-
           ...state,
-          items: state.items.map(x => x.id === existItem.id ? item : x)
+          items: state.items.map((x: any) => x.id === existItem ? item : x)
         };
 
       } else {
@@ -58,7 +65,7 @@ export const cartReducer = (state = initialCart, action) => {
     case types.CART_REMOVE_ITEM:
       return {
         ...state,
-        items: state.items.filter((curElem) => {
+        items: state.items.filter((curElem: any) => {
           return curElem.id !== action.payload.id;
         }),
       };
@@ -70,7 +77,7 @@ export const cartReducer = (state = initialCart, action) => {
     case types.INCREMENT_ITEM:
       doesItemExist = false;
       const addedItem = action.payload;
-      const newState = state.items.map((item) => {
+      const newState = state.items.map((item: any) => {
         if (item.id === addedItem.id) {
           item.quantitySelected += 1;
           doesItemExist = true;
@@ -87,7 +94,7 @@ export const cartReducer = (state = initialCart, action) => {
       }
     case types.DECREMENT_ITEM:
       const reducedItem = action.payload;
-      const newReducedState = state.items.map((item) => {
+      const newReducedState = state.items.map((item: any) => {
         if (item.id === reducedItem.id && item.quantitySelected > 1) {
           item.quantitySelected -= 1;
           doesItemExist = true;
@@ -99,28 +106,11 @@ export const cartReducer = (state = initialCart, action) => {
       } else {
         return {
           ...state,
-          items: state.items.filter((curElem) => {
+          items: state.items.filter((curElem: any) => {
             return curElem.id !== action.payload.id;
           }),
         };
       }
-    case types.GET_TOTAL:
-      let { totalItem, totalAmount } = state.items.reduce(
-        (accum, curVal) => {
-          let { price, quantity } = curVal;
-
-          let updatedTotalAmount = price * quantity;
-          accum.totalAmount += updatedTotalAmount;
-
-          accum.totalItem += quantity;
-          return accum;
-        },
-        {
-          totalItem: 0,
-          totalAmount: 0,
-        },
-      );
-      return { ...state, totalItem, totalAmount };
     default:
       return state;
   }

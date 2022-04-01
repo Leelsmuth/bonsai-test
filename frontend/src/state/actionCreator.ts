@@ -1,8 +1,9 @@
+import { Dispatch } from 'redux';
 import bonsaiApi from "../utils/apiUtil";
 import * as types from "./actionTypes";
 
 export const getProducts = () => {
-  return (dispatch) => {
+  return (dispatch: Dispatch) => {
     dispatch({ type: types.PRODUCTS_START });
     return bonsaiApi
       .get("/products")
@@ -20,14 +21,14 @@ export const getProducts = () => {
 };
 
 // to delete the indv. elements from an Item Cart
-export const removeItem = (id) => (dispatch) => {
+export const removeItem = (id: any) => (dispatch: Dispatch) => {
   return dispatch({
     type: types.CART_REMOVE_ITEM,
     payload: id,
   });
 };
 
-export const addToCart = (id) => async (dispatch) => {
+export const addToCart = (id: any) => async (dispatch: Dispatch) => {
 
   dispatch({
     type: types.ADD_TO_CART,
@@ -37,12 +38,12 @@ export const addToCart = (id) => async (dispatch) => {
 };
 
 // clear the cart
-export const clearCart = () => (dispatch) => {
+export const clearCart = () => (dispatch: Dispatch) => {
   return dispatch({ type: types.CLEAR_CART, });
 };
 
 // increment the item
-export const increment = (id) => (dispatch) => {
+export const increment = (id: any) => (dispatch: Dispatch) => {
   return dispatch({
     type: types.INCREMENT_ITEM,
     payload: id,
@@ -50,7 +51,7 @@ export const increment = (id) => (dispatch) => {
 };
 
 // decrement the item
-export const decrement = (id) => (dispatch) => {
+export const decrement = (id: any) => (dispatch: Dispatch) => {
   return dispatch({
     type: types.DECREMENT_ITEM,
     payload: id,
