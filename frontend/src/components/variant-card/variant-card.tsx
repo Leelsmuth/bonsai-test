@@ -1,6 +1,4 @@
-import { FC, ReactElement, useState } from 'react';
-import { useDispatch, useSelector, RootStateOrAny } from 'react-redux';
-import { addToCart } from '../../state/actionCreator';
+import { FC, ReactElement, useEffect, useState } from 'react';
 
 import './variant-card.styles.css';
 
@@ -22,68 +20,54 @@ interface IVariantCardProps {
   variant: Variant;
   productDiscontinued: boolean;
   name: string;
-}
-
-interface SomeVariantCardProps {
-  someVariant: Variant;
-  cartItems: {};
+  variantInfo: Function;
 }
 
 const VariantCard: FC<IVariantCardProps> = ({
   variant,
   productDiscontinued,
   name,
+  variantInfo,
 }): ReactElement => {
-  const [toggle, setToggle] = useState(false);
+  const { quantity, image, isDiscontinued, id } = variant;
 
-  // get cart state
-  const cart = useSelector((state: RootStateOrAny) => state.cart);
+  const [variantArray, setVariantArray] = useState({});
 
-  const { items } = cart;
+  const getVariantArray = () => {
+    const optionArray: { type: any; value: any }[] = [];
 
-  console.log('What is Item', items);
-
-  const { quantity, image, selectableOptions, isDiscontinued, priceCents, id } = variant;
-  console.log(`Selectable Options`, selectableOptions);
-
-  const cartItems = {
-    id,
-    name,
-    price: priceCents,
-    imageSrc: image,
-    quantitySelected: 1,
+    if (variant.selectableOptions) {
+      variant.selectableOptions.map((selectableOption: any) => {
+        const option = {
+          type: selectableOption.type,
+          value: selectableOption.value,
+        };
+        optionArray.push(option);
+      });
+    }
+    setVariantArray({
+      id: variant.id,
+      name,
+      price: variant.priceCents,
+      qty: variant.quantity,
+      options: optionArray,
+      imageSrc: image,
+      quantitySelected: 1,
+      isDiscontinued: variant.isDiscontinued
+    });
   };
+
+  useEffect(() => {
+    getVariantArray();
+  }, []);
 
   return (
     <>
       {productDiscontinued === false && isDiscontinued === false && quantity > 0 && (
-        <div className="product-card-container">
-          <img src={image} alt="" onClick={() => setToggle(!toggle)} />
-          {toggle && <App someVariant={variant} cartItems={cartItems} />}
+        <div className="variant-image" id={id}>
+          <img src={image} alt={name} title={name} onClick={() => variantInfo(variantArray)} />
         </div>
       )}
-    </>
-  );
-};
-
-const App: FC<SomeVariantCardProps> = ({ someVariant, cartItems }) => {
-  const dispatch = useDispatch();
-  return (
-    <>
-      <div className="product-card-details">
-        <span className="product-name">Price: {someVariant.priceCents} </span>
-        {someVariant.quantity > 0 && (
-          <span className="product-description">Quantity: {someVariant.quantity} </span>
-        )}
-        {someVariant.selectableOptions &&
-          someVariant.selectableOptions.map((selectableOption: any) => (
-            <>
-              <span>Type: {selectableOption.type}</span>
-              <h6>value: {selectableOption.value}</h6>
-            </>
-          ))}
-      </div>
-      <button onClick={() => dispatch(addToCart(cartItems))}>Add to cart</button>
     </>
   );
 };
