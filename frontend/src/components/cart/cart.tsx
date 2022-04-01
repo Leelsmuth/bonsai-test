@@ -1,5 +1,6 @@
 import { useContext } from 'react';
-import { useDispatch, useSelector, RootStateOrAny } from 'react-redux';
+import { useSelector, RootStateOrAny } from 'react-redux';
+import { formatter } from '../../utils/currencyFormatter';
 import CartItem from '../cart-item/cart-item';
 import { CartContext } from '../../cart-context';
 
@@ -26,7 +27,6 @@ import './cart.styles.css';
 // ];
 
 const Cart = () => {
-
   // get photos state
   const cart = useSelector((state: RootStateOrAny) => state.cart);
 
@@ -35,8 +35,8 @@ const Cart = () => {
 
   const closeCart = () => setIsOpen(false);
   const totalPrice = items
-  .reduce((acc:number, item:any) => acc + item.quantitySelected * item.price, 0)
-  .toFixed(2);
+    .reduce((acc: number, item: any) => acc + item.quantitySelected * item.price, 0)
+    .toFixed(2);
 
   return (
     <div className="cart-modal">
@@ -50,7 +50,7 @@ const Cart = () => {
           ))}
         </div>
         <div className="total-container">
-          <span>Total: ${totalPrice}</span>
+          <span>Total: {formatter.format(totalPrice / 100)}</span>
         </div>
       </div>
     </div>
