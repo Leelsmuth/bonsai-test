@@ -2,38 +2,43 @@
   display: flex;
   flex-direction: column;
   border-radius: 10px;
-  /* margin: 10px; */
-  /* width: 200px; */
-  /* height: 350px; */
   flex-basis: calc(25% - 20px);
-  padding: 15px;
+  padding: 0 15px 15px;
   box-shadow: rgba(149, 157, 165, 0.2) 0px 8px 24px;
   cursor: pointer;
-}
-.product-card-container.product-card-container--parent {
   overflow: hidden;
 }
-/* .product-card-container:not(.product-card-container--parent) {
-  overflow: hidden;
-} */
 
 .product-card-container img {
   width: auto;
   height: auto;
-  /* object-fit: contain; */
   max-width: 100%;
-  /* max-height: 200px; */
 }
 .product-card-container .product-card-image--parent {
   margin-left: -20px;
   margin-right: -20px;
   max-width: calc(100% + 40px);
+  width: calc(100% + 40px);
+  max-height: 250px;
+  object-fit: cover;
+  transition: transform 0.3s ease-in-out;
+}
+.product-card-container .product-card-image--parent:hover {
+  transform: scale(1.05);
 }
 .product-card-container img:not(.product-card-image--parent) {
   width: 50px;
   height: 50px;
   object-fit: contain;
   border-radius: 10px;
+  border: solid 2px transparent;
+  margin: 10px;
+}
+.product-card-container img:not(.product-card-image--parent):hover,
+.product-card-container .selected img:not(.product-card-image--parent),
+.product-card-container img:not(.product-card-image--parent).selected {
+  border-color: green;
+  padding: 2px;
 }
 
 .product-card-details {
@@ -46,4 +51,49 @@
   font-weight: bold;
   font-size: 20px;
   margin-bottom: 10px;
+}
+.variant-info {
+  background-color: #331b5f;
+  color: #fff;
+  margin: 10px 0;
+  padding: 10px;
+  font-size: 14px;
+}
+.variant-info > *:not(:last-child) {
+  margin-bottom: 5px;
+}
+.variant-info .variant-info--price span,
+.variant-info .variant-info--qty span,
+.variant-info .variant-info--type span {
+  font-weight: 700;
+}
+.variant-info .variant-info--type {
+  text-transform: capitalize;
+}
+.add-to-cart {
+  background: #4bb543;
+  padding: 10px 15px;
+  width: fit-content;
+  border-radius: 10px;
+  font-weight: 700;
+  text-transform: uppercase;
+}
+.add-to-cart:hover {
+  background: #3bc931;
+}
+
+@media only screen and (max-width: 1024px) {
+  .product-card-container {
+    flex-basis: calc(33% - 20px);
+  }
+}
+@media only screen and (max-width: 800px) {
+  .product-card-container {
+    flex-basis: calc(50% - 20px);
+  }
+}
+@media only screen and (max-width: 500px) {
+  .product-card-container {
+    flex-basis: 100%;
+  }
 }

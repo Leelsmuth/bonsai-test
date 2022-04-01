@@ -9,6 +9,8 @@
   padding: 15px;
   background-color: white;
   border-left: 1px solid black;
+
+  z-index: 1;
 }
 
 .close-button {
